@@ -10,5 +10,15 @@ const ALL_AUTHORS = gql`
           } 
     }
 `
-const authorsQueries = {ALL_AUTHORS}
+const EDIT_BORN = gql`
+    mutation editBorn ($name:String!,$born:Int!)       
+    {
+        editBorn (name:$name,born:$born)
+        {
+            name
+            born
+        }
+    }
+`
+const authorsQueries = {ALL_AUTHORS,EDIT_BORN}
 export default authorsQueries

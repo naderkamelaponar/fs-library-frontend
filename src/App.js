@@ -10,7 +10,7 @@ const App = () => {
     <div >
       <header style={{"textAlign":"center"}}>
         <h1>بسم الله الرحمن الرحيم</h1>
-        <h3>library frontend ex 8.8 - 8.10</h3>
+        <h3>library frontend ex 8.11 - 8.12</h3>
       </header>
       <div style={{"textAlign":"center"}}>
         <button onClick={() => setPage('authors')}>authors</button>

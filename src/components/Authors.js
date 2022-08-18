@@ -1,21 +1,49 @@
 /** بسم الله الرحمن الرحيم */
-import { useQuery } from '@apollo/client'
-import authorsQueries from "../queries/authorQueries"
-const EditBorn = ()=>{
+import { useQuery ,useMutation} from '@apollo/client'
+import { useState } from 'react'
+import authorsQueries from '../queries/authorQueries'
+const EditBorn = ({authors})=>{
+  const [editBorn] = useMutation(authorsQueries.EDIT_BORN,{
+    refetchQueries:[{query:authorsQueries.ALL_AUTHORS}]
+  })
+  const [selectedName,setSelectedName] = useState('')
+  const [born,setBorn] = useState('')
   const handleEdit = (e)=>{
     e.preventDefault()
-
+    if(!selectedName) return
+    editBorn({
+      variables:{
+        name:selectedName,born:Number(born)
+      }
+    }) 
+  }
+  const handleSelect =(e)=>{
+    setSelectedName(e.target.value)
   }
   return (
+    <div>
+      <h3>Set Birthday</h3>
+      <form onSubmit={handleEdit}>
+            <p> 
+              <select onChange={handleSelect}>
+                <option value={''} >choose Name :</option>
+                {authors.map(a=>{
+                 return <option key={a.id} value={a.name} > {a.name}</option>
+                })}
+              </select>
 
-    <form onSubmit={handleEdit}>
-      <p> author : <input/ ></p>
-      <p> born : <input/ ></p>
-      <p><button>Save</button></p>
+            </p>
+      <p> born : <input onChange={({target})=>{
+        setBorn(target.value)
+      }}/ ></p>
+      <p><button>update author</button></p>
     </form>
 
+    </div>
   )
+
 }
+
 const AuthorsList = ({authors})=>{
   return (
     <div>
@@ -36,7 +64,7 @@ const AuthorsList = ({authors})=>{
           ))}
         </tbody>
       </table>
-      <EditBorn />
+      
     </div>
   )
 }
@@ -46,7 +74,11 @@ const Authors = (props) => {
     return null
   } 
   return authors.loading ? <div>loadding ...</div>:authors.data&&authors.data.allAuthors?
-  <AuthorsList authors={authors.data.allAuthors} />: <div> no data</div>
+  <div>
+    <AuthorsList authors={authors.data.allAuthors} />
+    <EditBorn authors ={authors.data.allAuthors}/>
+  </div>
+  : <div> no data</div>
   
  
 }

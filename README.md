@@ -1,5 +1,5 @@
 # بسم الله الرحمن الرحيم
-### full stack graphQl frontend ex '8.8 - 8.10'
+### full stack graphQl frontend ex '8.11 - 8.12'
 
 #### Getting Started with Create React App
 
