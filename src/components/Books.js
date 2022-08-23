@@ -9,15 +9,17 @@ const BooksList = ({books})=>{
       <table>
         <tbody>
           <tr>
-            <th></th>
+            <th>Id</th>
+            <th>title</th>
             <th>author</th>
             <th>published</th>
           </tr>
           {books.map((a) => (
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
+            <tr key={a.id}>
+              <td>{a.id}{' '}</td>
+              <td>{a.title}{' '}</td>
+              <td>{a.author.name} {' '}</td>
+              <td>{a.published} {' '}</td>
             </tr>
           ))}
         </tbody>
@@ -27,6 +29,7 @@ const BooksList = ({books})=>{
 }
 const Books = (props) => {
   const books = useQuery(booksQueries.ALL_BOOKS)
+
   if (!props.show) {
     return null
   }

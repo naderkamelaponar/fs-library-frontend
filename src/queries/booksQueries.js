@@ -4,7 +4,12 @@ const ALL_BOOKS = gql `
 query {
     allBooks {
         title
-        author
+        author {
+            id
+            name
+            born
+            bookCount
+        }
         published
         genres
         id
@@ -21,7 +26,12 @@ mutation addBook
 {
 id
 title
-author
+author{
+    id
+    name
+    born
+    bookCount
+}
 published
 genres  
 }

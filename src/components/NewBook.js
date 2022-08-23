@@ -2,13 +2,24 @@
 import { useState } from 'react'
 import {useMutation } from '@apollo/client'
 import booksQueries from '../queries/booksQueries'
+const errMsg =  (res)=>{
+  const err = res['error']? res['error']:null
+  let msg = err? Object.keys(err).filter((a)=>{
+   if(a==='message')return err[a]
+   return ''
+ }):null
+
+ msg= msg? err[msg] :String(res).replace("Error: ").split(":")[1]
+ return msg
+}
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-  const [addBook] = useMutation(booksQueries.ADD_BOOK,{
+  const[err,setErr] = useState('')
+  const [addBook,res] = useMutation(booksQueries.ADD_BOOK,{
     refetchQueries:[{query:booksQueries.ALL_BOOKS}]
   })
   if (!props.show) {
@@ -17,18 +28,32 @@ const NewBook = (props) => {
 
   const submit = async (event) => {
     event.preventDefault()
-
     console.log('add book...')
-    addBook({
-      variables:{
-        title,author,published:Number(published),genres
-      }
-    })
-    setTitle('')
-    setPublished('')
-    setAuthor('')
-    setGenres([])
-    setGenre('')
+    let msg 
+    let resault 
+    try{
+      resault = await addBook({
+        variables:{
+          title,author,published:Number(published),genres
+        }
+      })
+    } catch(e){if ({Error}){
+      const err = errMsg(Error(e)) 
+      setErr(`Error : ${err}`)
+      return 
+    } }
+     if(resault){
+      setErr('done')
+      setTitle('')
+      setPublished('')
+      setAuthor('')
+      setGenres([])
+      setGenre('')
+      return
+     }
+      msg = errMsg(res)
+      if(msg)setErr(`Error : ${msg}`)
+
   }
 
   const addGenre = () => {
@@ -38,6 +63,7 @@ const NewBook = (props) => {
 
   return (
     <div>
+      {err && <p> {err}</p>}
       <form onSubmit={submit}>
         <div>
           title
