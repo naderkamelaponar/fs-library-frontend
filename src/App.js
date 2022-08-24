@@ -9,7 +9,6 @@ const App = () => {
   const [token,setToken] = useState(localStorage.getItem('lib-user-token'))
   const client = useApolloClient()
   const authorize =(value)=>{
-    if (!value) return 
     setToken(value)
     localStorage.setItem('lib-user-token', value)
     setPage('authors')
@@ -24,7 +23,7 @@ const App = () => {
     <div >
       <header style={{"textAlign":"center"}}>
         <h1>بسم الله الرحمن الرحيم</h1>
-        <h3>library frontend ex 8.11 - 8.12</h3>
+        <h3>library frontend ex 8.17 - 8.19</h3>
       </header>
       <div style={{"textAlign":"center"}}>
         <button onClick={() => setPage('authors')}>authors</button>
@@ -36,11 +35,11 @@ const App = () => {
       </div>
       <div >
       <Authors show={page === 'authors'} />
-
       <Books show={page === 'books'} />
 
       {token && <NewBook show={page === 'add'} /> }
-      {!token && <Login show={page === 'login'} authorize={authorize}/>}
+      {!token && <Login show={page === 'login'} 
+      authorize={authorize}/>}
       
       </div>
     </div>

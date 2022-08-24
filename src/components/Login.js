@@ -2,19 +2,15 @@
 import { useState , useEffect } from 'react'
 import {useMutation } from '@apollo/client'
 import gqlQueries from '../queries'
-const errMsg = (res)=>{
-  const err = res['error']? res['error']:null
-  let msg = err? Object.keys(err).filter((a)=>{
-   if(a==='message')return err[a]
-   return ''
- }):null
- return msg? err[msg] :null
-}
 const Login = (props) => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const [ler,setLer] = useState('')
-  const [login,res] = useMutation(gqlQueries.loginQueries.LOGIN)
+  const [msg,setMsg] = useState('')
+  const [login,res] = useMutation(gqlQueries.loginQueries.LOGIN,{
+    onError:(error)=>{
+      setMsg(error.graphQLErrors[0].message)
+    }
+  })
   useEffect(() => {
     if ( res.data ) {
       const token = res.data.login.value
@@ -26,15 +22,14 @@ const Login = (props) => {
   }
   const submit = async (event) => {
     event.preventDefault()
-    login({
+    const resault = await login({
         variables:{
             username:userName,password
           }
     })
     
-    if (!res.data) {
-     const msg = errMsg(res)
-     setLer(msg)
+    if (!resault.data){
+      return
     }
     setUserName('')
     setPassword('')
@@ -42,7 +37,7 @@ const Login = (props) => {
 
   return (
     <div>
-      {ler}
+      {msg && msg}
       <form onSubmit={submit}>
         <div>
           username

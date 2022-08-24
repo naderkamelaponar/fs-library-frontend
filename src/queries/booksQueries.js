@@ -1,20 +1,20 @@
 /** بسم الله الرحمن الرحيم */
 import {gql} from '@apollo/client'
 const ALL_BOOKS = gql `
-query {
-    allBooks {
-        title
-        author {
-            id
-            name
-            born
-            bookCount
-        }
-        published
-        genres
+query AllBooks($genre: String) {
+    allBooks(genre: $genre) {
+      title
+      published
+      author {
         id
+        name
+        born
+        bookCount
+      }
+      genres
+      id
     }
-}
+  }
 `
 const ADD_BOOK = gql`
 mutation addBook

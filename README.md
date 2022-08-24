@@ -1,9 +1,5 @@
 # بسم الله الرحمن الرحيم
-### full stack graphQl frontend ex 'ex 8.17 - 8.18'
-
-#### Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### full stack graphQl frontend ex 'ex 8.18 - 8.19'
 
 ## Available Scripts
 
