@@ -2,7 +2,6 @@
 const BooksList = ({books})=>{
   return (
     <div>
-      <h2>books {books.length}</h2>
       <table>
         <tbody>
           <tr>

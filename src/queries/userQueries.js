@@ -18,5 +18,6 @@ mutation CreateUser($username: String!, $favouriteGenre: String!, $password: Str
   }
 }
 `
+
 const userQueries = {LOGIN ,CREATE_USER}
 export default userQueries

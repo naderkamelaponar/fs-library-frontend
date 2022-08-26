@@ -4,14 +4,16 @@ import { useState } from 'react'
 import booksQueries from '../../queries/booksQueries'
 import BooksList from './BooksList'
 import Genres from './Genres'
-const Display = ({books,setGenre}) =>{
+const Display = ({books,setGenre,currentGenre}) =>{
   let genres =[]
   if(books){
     books.map(b=>{return  genres= genres.concat(b.genres)})
   }
+ 
   genres=[...new Set(genres)]
   return (
     <>
+    <h2>books {currentGenre && `In ${currentGenre}`  } {books.length}</h2>
     <BooksList books={books}  />
     <Genres genres={genres} setGenre = {setGenre}/>
     </>
@@ -32,7 +34,7 @@ const Books = (props) => {
   return books.loading ? <div>loadding ...</div> 
   : books.data && books.data.allBooks ?
   <Display books={books.data.allBooks} 
-   setGenre={handleSetGenre} 
+   setGenre={handleSetGenre} currentGenre={genre}
   />
   : <div> no data</div>
 
