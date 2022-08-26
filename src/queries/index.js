@@ -1,8 +1,8 @@
 /** بسم الله الرحمن الرحيم */
 import authorsQueries from "./authorQueries";
 import booksQueries from "./booksQueries";
-import loginQueries from "./loginQueries";
+import userQueries from "./userQueries";
 const gqlQueries = {
-    authorsQueries,booksQueries,loginQueries
+    authorsQueries,booksQueries,userQueries
 }
 export default gqlQueries

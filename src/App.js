@@ -1,9 +1,25 @@
 import { useApolloClient } from '@apollo/client'
 import { useState } from 'react'
-import Authors from './components/Authors'
-import Books from './components/Books'
-import Login from './components/Login'
-import NewBook from './components/NewBook'
+import Authors from './components/authors/Authors'
+import Books from './components/books/Books'
+import Login from './components/users/Login'
+import NewBook from './components/books/NewBook'
+import CreateUser from './components/users/CreateUser'
+import Recomended from './components/users/Recomended'
+const HeaderButtons =({token,goToPage,LogOut}) =>{
+  return (
+    <div style={{"textAlign":"center"}}>
+    <button onClick={() => goToPage('authors')}>authors</button>
+    <button onClick={() => goToPage('books')}>books</button>
+    {token && <button onClick={() => goToPage('add')}>add book</button>} 
+    {token && <button onClick={() => goToPage('recomended')}>recomended</button>}
+    {!token && <button onClick={() => goToPage('login')}>Login</button>}
+    {!token && <button onClick={() => goToPage('createUser')}>new user</button>}
+    {token && <button onClick={LogOut}>LogOut</button>}
+  </div>
+  )
+
+}
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token,setToken] = useState(localStorage.getItem('lib-user-token'))
@@ -12,6 +28,9 @@ const App = () => {
     setToken(value)
     localStorage.setItem('lib-user-token', value)
     setPage('authors')
+  }
+  const goToPage= (value)=>{
+    setPage(value)
   }
   const LogOut=()=>{
     setToken(null)
@@ -25,22 +44,17 @@ const App = () => {
         <h1>بسم الله الرحمن الرحيم</h1>
         <h3>library frontend ex 8.17 - 8.19</h3>
       </header>
-      <div style={{"textAlign":"center"}}>
-        <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        {token? <button onClick={() => setPage('add')}>add book</button>:<button onClick={() => setPage('login')}>Login</button>}
-        {token && <button onClick={LogOut}>LogOut</button>}
-        
-        
-      </div>
+      <HeaderButtons token={token} goToPage={goToPage} 
+        LogOut= {LogOut} 
+      />
       <div >
       <Authors show={page === 'authors'} />
       <Books show={page === 'books'} />
-
-      {token && <NewBook show={page === 'add'} /> }
-      {!token && <Login show={page === 'login'} 
-      authorize={authorize}/>}
-      
+      <NewBook show={page === 'add'} />
+      <Login show={page === 'login'} 
+      authorize={authorize}/>
+      <CreateUser show={page === 'createUser' }/>
+      <Recomended show ={page === 'recomended'} />
       </div>
     </div>
   )

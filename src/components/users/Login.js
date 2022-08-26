@@ -1,18 +1,20 @@
 /** بسم الله الرحمن الرحيم */
 import { useState , useEffect } from 'react'
 import {useMutation } from '@apollo/client'
-import gqlQueries from '../queries'
+import appHooks from '../../hooks'
+import gqlQueries from '../../queries'
 const Login = (props) => {
-  const [userName, setUserName] = useState('')
-  const [password, setPassword] = useState('')
+  const userName= appHooks.useInput('text')
+  const password= appHooks.useInput('password')
   const [msg,setMsg] = useState('')
-  const [login,res] = useMutation(gqlQueries.loginQueries.LOGIN,{
+  const [login,res] = useMutation(gqlQueries.userQueries.LOGIN,{
     onError:(error)=>{
       setMsg(error.graphQLErrors[0].message)
     }
   })
   useEffect(() => {
     if ( res.data ) {
+      console.log(res.data)
       const token = res.data.login.value
       props.authorize(token)
     }
@@ -22,17 +24,18 @@ const Login = (props) => {
   }
   const submit = async (event) => {
     event.preventDefault()
-    const resault = await login({
+    setMsg('wait....')
+    await login({
         variables:{
-            username:userName,password
+            username:userName.value,password:password.value
           }
     })
-    
-    if (!resault.data){
+    if (!res.data){
       return
     }
-    setUserName('')
-    setPassword('')
+    setMsg('logged in')
+    userName.form.resetValue()
+    password.form.resetValue()
   }
 
   return (
@@ -42,16 +45,13 @@ const Login = (props) => {
         <div>
           username
           <input
-            value={userName}
-            onChange={({ target }) => setUserName(target.value)}
+           {...userName}
           />
         </div>
         <div>
           password
           <input
-            value={password}
-            type={"password"}
-            onChange={({ target }) => setPassword(target.value)}
+          {...password}
           />
         </div>
         

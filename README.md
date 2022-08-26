@@ -1,5 +1,5 @@
 # بسم الله الرحمن الرحيم
-### full stack graphQl frontend ex 'ex 8.18 - 8.19'
+### full stack graphQl frontend ex 'ex 8.20 - 8.21'
 
 ## Available Scripts
 
