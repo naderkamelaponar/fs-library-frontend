@@ -1,5 +1,6 @@
 /** بسم الله الرحمن الرحيم */
-const BooksList = ({books})=>{
+import Genre from "./Genre"
+const BooksList = ({books,dontSet})=>{
   return (
     <div>
       <table>
@@ -19,7 +20,8 @@ const BooksList = ({books})=>{
               <td>{a.published} {' '}</td>
               <td>
                 {a.genres.map((g,i)=>
-                     {  return <li key={i}>{g}</li>  }  )
+                     {  if(g)return  <Genre key={i} genre={g} dontSet={dontSet}/>
+                    return ''  }  )
                 }
               </td>
             </tr>

@@ -6,7 +6,7 @@ import Books from './components/books/Books'
 import Login from './components/users/Login'
 import NewBook from './components/books/NewBook'
 import CreateUser from './components/users/CreateUser'
-import Recomended from './components/users/Recomended'
+import Favourite from './components/users/Favourite'
 import HeaderButtons from './components/utils/HeaderButtons'
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -15,7 +15,7 @@ const App = () => {
   const authorize =(value)=>{
     setToken(value)
     localStorage.setItem('lib-user-token', value)
-    setPage('authors')
+    setPage('favourite')
   }
   const goToPage= (value)=>{
     setPage(value)
@@ -30,7 +30,7 @@ const App = () => {
     <div >
       <header style={{"textAlign":"center"}}>
         <h1>بسم الله الرحمن الرحيم</h1>
-        <h3>library frontend ex 8.20 - 8.21</h3>
+        <h3>library frontend ex 8.21 - 8.22</h3>
         <HeaderButtons token={token} goToPage={goToPage} 
         LogOut= {LogOut} 
         />
@@ -42,7 +42,7 @@ const App = () => {
       <Login show={page === 'login'} 
       authorize={authorize}/>
       <CreateUser show={page === 'createUser' }/>
-      <Recomended show ={page === 'recomended'} />
+      <Favourite show ={page === 'favourite'} />
       </div>
     </div>
   )

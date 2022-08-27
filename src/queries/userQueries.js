@@ -18,6 +18,24 @@ mutation CreateUser($username: String!, $favouriteGenre: String!, $password: Str
   }
 }
 `
+const SET_FAVOURITE= gql`
+mutation setFavourite( $genre:String!) {
+  setFavourite(genre: $genre) {
+    id
+    username
+    favouriteGenre
+  }
+}
+`
+const ME = gql`
+query me {
+  me {
+    id
+    favouriteGenre
+    username
+  }
+}
+`
 
-const userQueries = {LOGIN ,CREATE_USER}
+const userQueries = {LOGIN ,CREATE_USER , ME, SET_FAVOURITE}
 export default userQueries

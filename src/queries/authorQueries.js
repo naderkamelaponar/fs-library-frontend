@@ -1,13 +1,13 @@
 /** بسم الله الرحمن الرحيم */
 import { gql  } from '@apollo/client'
 const ALL_AUTHORS = gql`
-    query {
+    query allAuthors {
         allAuthors {
             id
             name
             born
             bookCount
-          } 
+          }
     }
 `
 const EDIT_BORN = gql`

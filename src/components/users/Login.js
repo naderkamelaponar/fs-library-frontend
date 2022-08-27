@@ -14,7 +14,6 @@ const Login = (props) => {
   })
   useEffect(() => {
     if ( res.data ) {
-      console.log(res.data)
       const token = res.data.login.value
       props.authorize(token)
     }
