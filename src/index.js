@@ -21,7 +21,7 @@ const httpLink =new HttpLink({
   uri,
 })
 let ws = process.env['REACT_APP_URI'] ? process.env['REACT_APP_URI'].split(":")[1]:null
-ws = ws? 'wss:'+ws:'ws://localhost:4000/graphql'
+ws = ws? 'ws:'+ws:'ws://localhost:4000/graphql'
 console.log(ws)
   const wsLink = new WebSocketLink({
     uri: ws,
