@@ -1,22 +1,30 @@
 /** بسم الله الرحمن الرحيم */
-import { useState  } from 'react'
+import { useState , useEffect } from 'react'
 import {useMutation } from '@apollo/client'
 import appHooks from '../../hooks'
 import gqlQueries from '../../queries'
-const CreateUser = ({show}) => {
+const CreateUser = (props) => {
   const userName= appHooks.useInput()
   const password= appHooks.useInput('password')
   const repeatPassword= appHooks.useInput('password')
   const favouriteGenre = appHooks.useInput()
   const [msg,setMsg] = useState('')
+  const [login ,res] = useMutation(gqlQueries.userQueries.LOGIN)
   const [createUser ] = useMutation(gqlQueries.userQueries.CREATE_USER,{
     onError:(error)=>{
       console.log('error,',error)
         setMsg(error.graphQLErrors[0].message)
+      } })
+      useEffect(() => {
+        if ( res.data ) {
+          const token = res.data.login.value
+          props.authorize(token)
+        }
+      }, [res.data]) // eslint-disable-line
+      if (!props.show) {
+        return null
       }
-  })
-  
-  if (!show) {
+  if (!props.show) {
     return null
   }
   const submit = async (event) => {
@@ -26,17 +34,23 @@ const CreateUser = ({show}) => {
       variables:{
         username:userName.value,
         password:password.value,
-        favouriteGenre:''
+        favouriteGenre:favouriteGenre.value
       }
     })
      if(!resault.data){
       return
      }
-     console.log(resault)
      setMsg('done')
       userName.form.resetValue()
       password.form.resetValue()
-
+      repeatPassword.form.resetValue()
+      favouriteGenre.form.resetValue()
+      await login({
+        variables:{
+            username:userName.value,password:password.value
+          }
+    })
+     
   }
   return (
     <div>

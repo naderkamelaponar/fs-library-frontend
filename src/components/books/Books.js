@@ -23,7 +23,7 @@ const Books = (props) => {
   const books = useQuery(gqlQueries.booksQueries.ALL_BOOKS,{variables:{
     genre
   }})
-
+  
   if (!props.show) {
     return null
   }
@@ -34,6 +34,7 @@ const Books = (props) => {
   : books.data && books.data.allBooks ?
   <Display books={books.data.allBooks} 
    setGenre={handleSetGenre} currentGenre={genre}
+   resetLiveDataC={props.resetLiveDataC}
   />
   : <div> no data</div>
 

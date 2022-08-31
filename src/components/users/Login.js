@@ -1,17 +1,20 @@
 /** بسم الله الرحمن الرحيم */
 import { useState , useEffect } from 'react'
-import {useMutation } from '@apollo/client'
+
+import { useMutation } from '@apollo/client'
 import appHooks from '../../hooks'
 import gqlQueries from '../../queries'
 const Login = (props) => {
   const userName= appHooks.useInput('text')
   const password= appHooks.useInput('password')
   const [msg,setMsg] = useState('')
+  
   const [login,res] = useMutation(gqlQueries.userQueries.LOGIN,{
     onError:(error)=>{
       setMsg(error.graphQLErrors[0].message)
-    }
+    },refetchQueries:[{me:gqlQueries.userQueries.ME}]
   })
+  
   useEffect(() => {
     if ( res.data ) {
       const token = res.data.login.value

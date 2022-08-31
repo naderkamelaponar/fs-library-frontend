@@ -9,32 +9,34 @@ mutation login
     }
   }
 `
+const USER_DATA=gql`
+fragment userData on User {
+  id
+  username
+  favouriteGenre
+}
+`
 const CREATE_USER = gql`
 mutation CreateUser($username: String!, $favouriteGenre: String!, $password: String!) {
   createUser(username: $username, favouriteGenre: $favouriteGenre, password: $password) {
-    id
-    username
-    favouriteGenre
+   ...userData 
   }
-}
+}${USER_DATA}
 `
+
 const SET_FAVOURITE= gql`
 mutation setFavourite( $genre:String!) {
   setFavourite(genre: $genre) {
-    id
-    username
-    favouriteGenre
+    ...userData 
   }
-}
+}${USER_DATA}
 `
 const ME = gql`
-query me {
+query Me {
   me {
-    id
-    favouriteGenre
-    username
+    ...userData
   }
-}
+}${USER_DATA}
 `
 
 const userQueries = {LOGIN ,CREATE_USER , ME, SET_FAVOURITE}
